@@ -1,0 +1,6 @@
+Books|BookID
+Author|String|12|BookID|Int32|8|Title|String|16|Quantity|Int32|8|Number|Int32|8
+Frolov|1|Nachert|100|23
+Morozova|2|Mataniz|1030|253
+hjjk|254|fhghjjkhjghfgf|25325|2
+Ukraine|3|Maidan|12441|1
