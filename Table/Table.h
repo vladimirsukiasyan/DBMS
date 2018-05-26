@@ -53,7 +53,13 @@ public:
 
     void printTable();
 
-    Row createRow();
+    void insertRow();
+
+    void deleteRow(int index);
+
+    void writeDBTable();
+
+    void getRowsWhere(string column,string value);
 };
 
 

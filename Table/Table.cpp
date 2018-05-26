@@ -20,7 +20,7 @@ Table::Table() {}
 //}
 
 void Table::readTable() {
-    fstream tableFile(DatabaseManager::currentDirectory+"\\"+tableName+".csv");
+    fstream tableFile(DatabaseManager::currentDirectory+tableName+".csv");
     if (!tableFile.is_open()) {
         cout << "Can't open the table!";
         return;
@@ -56,12 +56,13 @@ void Table::getDataInfo(fstream &file) {
         Row row;
         getline(file, line);
         int i = 0;
-        while ((pos=line.find(delim))!=string::npos) {
-            token=line.substr(0,pos);
-            line.erase(0,pos+delim.length());
-            row.push_back(setValueToVoid(token, tableHeader[i].colType));
-            i++;
-        }
+		while ((pos=line.find(delim))!=string::npos) {
+			token=line.substr(0,pos);
+			line.erase(0,pos+delim.length());
+			row.push_back(setValueToVoid(token, tableHeader[i].colType));
+			i++;
+		}
+		row.push_back(setValueToVoid(line,tableHeader[i].colType));
         data.push_back(row);
     }
 }
@@ -107,26 +108,58 @@ void Table::printTable() {
 	}
 	cout << endl;
 }
-Row Table::createRow() {
+void Table::insertRow() {
 	Row row;
 	for (auto item : tableHeader) {
 		cout << "Enter " << item.columnName << ": ";
-		char* inValue = new char[100];
+		string enterValue;
+		cin >> enterValue;
 		void* writeValue;
-		cin >> inValue;
 		switch (item.colType) {
-			case DBType(String): writeValue = new string(inValue); break;
-			case DBType(Int32): writeValue = new int(atoi(inValue)); break;
-			case DBType(Double): writeValue = new double(atof(inValue)); break;
-			case DBType(Date): writeValue = new DBDate(inValue); break;
+			case DBType(String): writeValue = new string(enterValue); break;
+			case DBType(Int32): writeValue = new int(stoi(enterValue)); break;
+			case DBType(Double): writeValue = new double(stof(enterValue)); break;
+			case DBType(Date): writeValue = new DBDate(enterValue); break;
 		}
 		row.push_back(writeValue);
 	}
-	return row;
+	data.push_back(row);
+	cout<<endl;
 }
-void DBTableTxt::addRow() {
-	data.push_back(createRow());
-}
-void DBTableTxt::deleteRow(int index) {
+void Table::deleteRow(int index) {
 	data.erase(data.begin()+index-1);
+}
+void Table::writeDBTable() {
+	setlocale(LC_ALL, "rus");
+	fstream table;
+	table.open(DatabaseManager::currentDirectory+tableName+".csv");
+	table << primaryKey << endl;
+	int i = 0;
+	for (auto item: tableHeader) {
+		table << item.columnName << "|" << setType(item.colType);
+		if (i++!= tableHeader.size()-1) table << "|";
+	}
+	i = 0;
+	table << endl;
+	for (auto item: data) {
+		int j = 0;
+		for (auto value: item) {
+			switch (tableHeader[j].colType) {
+				case DBType(String): table << *reinterpret_cast<string*>(value); break;
+				case DBType(Int32): table << *reinterpret_cast<int*>(value); break;
+				case DBType(Double): table << *reinterpret_cast<double*>(value); break;
+				case DBType(Date): table << *reinterpret_cast<DBDate*>(value); break;
+			}
+			if (j++!=item.size()-1) table << "|";
+		}
+		if(i++!=data.size()-1) table << endl;
+	}
+	table.close();
+}
+
+void Table::getRowsWhere(string column,string value) {
+//	for(auto item: data){
+//		item.
+//	}
+
 }

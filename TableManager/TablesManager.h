@@ -13,6 +13,7 @@ class TablesManager {
 public:
     map<string,Table> tables;
     string tableCurrentName;
+    Table* curTable= nullptr;
 
     TablesManager();
 
@@ -27,6 +28,14 @@ public:
     TablesManager& operator=(const TablesManager& tablesManager);
 
     void printCurrentTable();
+
+    void insertRow();
+
+    void deleteRow(int index);
+
+    void saveTables();
+
+    void selectWhere();
 };
 
 

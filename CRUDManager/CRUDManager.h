@@ -6,7 +6,10 @@
 #define DBMS_CRUDMANAGER_H
 
 
+#include "../Table/Table.h"
+
 class CRUDManager {
+    Table* currentTable;
 
 };
 

@@ -14,17 +14,19 @@ using namespace std;
 class DatabaseManager {
 public:
     string databaseName;
+    TablesManager tablesManager;
     static string currentDirectory;
     static string defaultDirectory;
 
     void printDatabases();
 
-    TablesManager useDatabase(const char *dbName);
+    TablesManager* useDatabase(const char *dbName);
 
     void createDatabase(const char *path);
 
     void addInfoToMetafile(fstream& fstream);
 
+    void saveDatabase();
 };
 
 

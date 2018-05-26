@@ -16,7 +16,7 @@ TablesManager& TablesManager::operator=(const TablesManager& tablesManager){
 }
 
 void TablesManager::printTables() {
-    fstream metafile(DatabaseManager::currentDirectory+"\\metafile.txt");
+    fstream metafile(DatabaseManager::currentDirectory+"metafile.txt");
     if(!metafile.is_open()){
         cout<<"Can't open the metafile!"<<endl;
         return;
@@ -28,7 +28,7 @@ void TablesManager::printTables() {
 }
 
 void TablesManager::useTable(const char *tableName) {
-    string tablePath=DatabaseManager::currentDirectory+"\\"+tableName+".csv";
+    string tablePath=DatabaseManager::currentDirectory+tableName+".csv";
 
     fstream table(tablePath);
     if(!table.is_open()){
@@ -36,21 +36,22 @@ void TablesManager::useTable(const char *tableName) {
         return;
     }
     this->tableCurrentName=tableName;
+    this->curTable=&tables.at(tableName);
     table.close();
     return;
 
 }
 
 void TablesManager::createTable(const char *tableName) {
-    string tablePath=DatabaseManager::currentDirectory+"\\"+tableName+".csv";
+    string tablePath=DatabaseManager::currentDirectory+tableName+".csv";
     fstream table(tablePath, fstream::in|fstream::out|fstream::trunc);
     table.close();
-    fstream metafile(DatabaseManager::currentDirectory+"\\"+"metafile.txt");
+    fstream metafile(DatabaseManager::currentDirectory+"metafile.txt");
     metafile<<endl<<tableName;
 }
 
 void TablesManager::readAllTables() {
-    fstream metafile(DatabaseManager::currentDirectory+"\\"+"metafile.txt");
+    fstream metafile(DatabaseManager::currentDirectory+"metafile.txt");
     string tableName;
     while(getline(metafile,tableName)){
         Table table(tableName);
@@ -60,7 +61,31 @@ void TablesManager::readAllTables() {
 }
 
 void TablesManager::printCurrentTable() {
-    tables.at(tableCurrentName).printTable();
+    if(curTable!= nullptr) curTable->printTable();
+}
+
+void TablesManager::insertRow() {
+    curTable->insertRow();
+}
+
+void TablesManager::deleteRow(int index) {
+    curTable->deleteRow(index);
+}
+
+void TablesManager::saveTables() {
+    for(auto it=tables.begin();it!=tables.end();it++){
+        it->second.writeDBTable();
+    }
+}
+
+void TablesManager::selectWhere() {
+    cout<<"Enter name of Column:";
+    string column,value;
+    cin>>column;
+    cout<<"Enter value:";
+    cin>>value;
+
+//    curTable->getRowsWhere();
 }
 
 

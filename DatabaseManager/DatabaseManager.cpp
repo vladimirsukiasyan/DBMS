@@ -25,22 +25,24 @@ void DatabaseManager::printDatabases() {
     metaDatabases.close();
 }
 
-TablesManager DatabaseManager::useDatabase(const char *dbName) {
-    string databasePath=currentDirectory+dbName;
+TablesManager* DatabaseManager::useDatabase(const char *dbName) {
+    saveDatabase();
+    currentDirectory=defaultDirectory;
 
+    string databasePath=currentDirectory+dbName;
     fstream database(databasePath+"\\metafile.txt");
     if(!database.is_open()){
         cout<<"This database is not exist!";
-        return TablesManager();
+        return new TablesManager();
     }
     database.close();
     this->databaseName=dbName;
     currentDirectory+=dbName;
+    currentDirectory+="\\";
 
     //загрузка всех таблиц данной бд в память
-    TablesManager tablesManager;
     tablesManager.readAllTables();
-    return tablesManager;
+    return &tablesManager;
 }
 
 void DatabaseManager::createDatabase(const char *dbName) {
@@ -58,5 +60,9 @@ void DatabaseManager::createDatabase(const char *dbName) {
 }
 void DatabaseManager::addInfoToMetafile(fstream& fstream) {
 
+}
+
+void DatabaseManager::saveDatabase() {
+    tablesManager.saveTables();
 }
 

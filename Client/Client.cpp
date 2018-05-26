@@ -15,12 +15,20 @@ void Client::run() {
     databaseManager.printDatabases();
     databaseManager.createDatabase("testDB1");
 
-    TablesManager tablesManager=databaseManager.useDatabase("testDB"); //получаем tableManager со всеми таблицами в бд
-    tablesManager.printTables();
+    TablesManager* tablesManager=databaseManager.useDatabase("testDB"); //получаем указатель на tableManager(поле DatabaseManager) со всеми таблицами бд
+    tablesManager->printTables();
 
-    tablesManager.useTable("Students");
-    tablesManager.useTable("Abonements");
-    tablesManager.useTable("Books");
-    tablesManager.printCurrentTable();
+    tablesManager->useTable("Books");
+    tablesManager->useTable("Abonements");
+    tablesManager->useTable("Students");
+    tablesManager->printCurrentTable();
+
+    tablesManager->insertRow();
+    tablesManager->printCurrentTable();
+    tablesManager->deleteRow(0);
+    tablesManager->printCurrentTable();
+//    tablesManager->selectWhere();
+
+    databaseManager.useDatabase("testDB1");
 
 }
