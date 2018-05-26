@@ -5,16 +5,22 @@
 #include <iostream>
 #include "Client.h"
 #include "../DatabaseManager/DatabaseManager.h"
+#include "../Table/Table.h"
+#include "../TableManager/TablesManager.h"
 
 void Client::run() {
     DatabaseManager databaseManager;
+
     //читаем все бд
     databaseManager.printDatabases();
     databaseManager.createDatabase("testDB1");
-    databaseManager.useDatabase("testDB");
-    databaseManager.printTables();
-    databaseManager.createTable("Teachers");
-    databaseManager.useTable("Students");
 
-    cout<<databaseManager.databaseName<<"."<<databaseManager.tableName;
+    TablesManager tablesManager=databaseManager.useDatabase("testDB"); //получаем tableManager со всеми таблицами в бд
+    tablesManager.printTables();
+
+    tablesManager.useTable("Students");
+    tablesManager.useTable("Abonements");
+    tablesManager.useTable("Books");
+    tablesManager.printCurrentTable();
+
 }

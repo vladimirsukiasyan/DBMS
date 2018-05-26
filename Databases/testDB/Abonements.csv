@@ -1,5 +1,5 @@
-Abonements|NoPrimaryKey
-BookID|Int32|8|DateIn|Date|12|DateOut|Date|12|StudentID|Int32|8
+NoPrimaryKey
+BookID|Int32|DateIn|Date|DateOut|Date|StudentID|Int32
 1|5.11.2016|6.4.2018|1
 1|12.5.2001|6.11.2030|2
 3|18.5.2018|1.9.2018|234

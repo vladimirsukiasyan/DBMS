@@ -6,27 +6,25 @@
 #define DBMS_DATABASEMANAGER_H
 
 #include "string"
+#include "../Table/Table.h"
+#include "../TableManager/TablesManager.h"
+
 using namespace std;
 
 class DatabaseManager {
 public:
     string databaseName;
-    string tableName;
-    string currentDirectory="..\\Databases\\";
-    string defaultDirectory="..\\Databases\\";
+    static string currentDirectory;
+    static string defaultDirectory;
+
     void printDatabases();
 
-    void useDatabase(const char *dbName);
+    TablesManager useDatabase(const char *dbName);
 
     void createDatabase(const char *path);
 
-    void printTables();
-
-    void useTable(const char *tableName);
-
-    void createTable(const char *tableName);
-
     void addInfoToMetafile(fstream& fstream);
+
 };
 
 

@@ -5,8 +5,12 @@
 #include <iostream>
 #include <cstring>
 #include "DatabaseManager.h"
+#include "../TableManager/TablesManager.h"
 #include <direct.h>
 using namespace std;
+
+string DatabaseManager::currentDirectory="..\\Databases\\";
+string DatabaseManager::defaultDirectory="..\\Databases\\";
 
 void DatabaseManager::printDatabases() {
     fstream metaDatabases("..\\Databases\\metafile.txt");
@@ -21,17 +25,22 @@ void DatabaseManager::printDatabases() {
     metaDatabases.close();
 }
 
-void DatabaseManager::useDatabase(const char *dbName) {
+TablesManager DatabaseManager::useDatabase(const char *dbName) {
     string databasePath=currentDirectory+dbName;
 
     fstream database(databasePath+"\\metafile.txt");
     if(!database.is_open()){
         cout<<"This database is not exist!";
-        return;
+        return TablesManager();
     }
+    database.close();
     this->databaseName=dbName;
     currentDirectory+=dbName;
 
+    //загрузка всех таблиц данной бд в память
+    TablesManager tablesManager;
+    tablesManager.readAllTables();
+    return tablesManager;
 }
 
 void DatabaseManager::createDatabase(const char *dbName) {
@@ -47,37 +56,6 @@ void DatabaseManager::createDatabase(const char *dbName) {
 //    addInfoToMetafile(database);
     database.close();
 }
-
-void DatabaseManager::printTables() {
-    fstream metafile(currentDirectory+"\\metafile.txt");
-    if(!metafile.is_open()){
-        cout<<"Can't open the metafile!"<<endl;
-        return;
-    }
-    string tableName;
-    while(getline(metafile,tableName)) cout<<tableName<<endl;
-    cout<<endl;
-    metafile.close();
-}
-
-void DatabaseManager::useTable(const char *tableName) {
-    string tablePath=currentDirectory+"\\"+tableName+".csv";
-
-    fstream table(tablePath);
-    if(!table.is_open()){
-        cout<<"This database is not exist!";
-        return;
-    }
-    this->tableName=tableName;
-    currentDirectory+="\\";
-    currentDirectory+=tableName;
-}
-
-void DatabaseManager::createTable(const char *tableName) {
-    string tablePath=currentDirectory+"\\"+tableName+".csv";
-    fstream table(tablePath, fstream::in|fstream::out|fstream::trunc);
-}
-
 void DatabaseManager::addInfoToMetafile(fstream& fstream) {
 
 }
