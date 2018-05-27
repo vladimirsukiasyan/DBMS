@@ -91,8 +91,8 @@ void* Table::setValueToVoid(string value, DBType dbType) {
 	}
 }
 
-void Table::printTable() {
-	for (auto item: data) {
+void Table::printTable(vector<Row> table) {
+	for (auto item: table) {
 		int i = 0;
 		for (auto itemCol : item) {
 			switch (tableHeader[i].colType) {
@@ -108,6 +108,10 @@ void Table::printTable() {
 	}
 	cout << endl;
 }
+
+void Table::printTable() {
+	printTable(data);
+}
 void Table::insertRow() {
 	Row row;
 	for (auto item : tableHeader) {
@@ -115,12 +119,7 @@ void Table::insertRow() {
 		string enterValue;
 		cin >> enterValue;
 		void* writeValue;
-		switch (item.colType) {
-			case DBType(String): writeValue = new string(enterValue); break;
-			case DBType(Int32): writeValue = new int(stoi(enterValue)); break;
-			case DBType(Double): writeValue = new double(stof(enterValue)); break;
-			case DBType(Date): writeValue = new DBDate(enterValue); break;
-		}
+		writeValue=setValueToVoid(enterValue,item.colType);
 		row.push_back(writeValue);
 	}
 	data.push_back(row);
@@ -132,7 +131,7 @@ void Table::deleteRow(int index) {
 void Table::writeDBTable() {
 	setlocale(LC_ALL, "rus");
 	fstream table;
-	table.open(DatabaseManager::currentDirectory+tableName+".csv");
+	table.open(DatabaseManager::currentDirectory+tableName+".csv",fstream::out); //Народ, всгда указывайте флаги! Я тут блин кучу времени потерял.
 	table << primaryKey << endl;
 	int i = 0;
 	for (auto item: tableHeader) {
@@ -157,9 +156,78 @@ void Table::writeDBTable() {
 	table.close();
 }
 
-void Table::getRowsWhere(string column,string value) {
-//	for(auto item: data){
-//		item.
-//	}
+vector<Row> Table::getRowsWhere(string column,string value) {
+	vector<Row> response;
+	DBType dbType;
+	int indexColumn=-1;
+	for(int i=0;i<tableHeader.size();i++)
+		if(tableHeader[i].columnName==column) indexColumn=i;
+	dbType=tableHeader[indexColumn].colType;
+	for(auto record: data){
+		switch (dbType) {
+			case DBType(Int32): {
+				if(*reinterpret_cast<int*>(record[indexColumn])==stoi(value)) response.push_back(record);
+				break;
+			}
+			case DBType(Double):{
+				if(*reinterpret_cast<double*>(record[indexColumn])==stof(value)) response.push_back(record);
+				break;
+			}
+			case DBType(String):{
+				if(*reinterpret_cast<string*>(record[indexColumn])==value) response.push_back(record);
+				break;
+			}
+			case DBType(Date): {
+				DBDate dbDate(value);
+				if(*reinterpret_cast<DBDate*>(record[indexColumn])==dbDate) response.push_back(record);
+				break;
+			}
+		}
+	}
+	return response;
 
+}
+
+void Table::deleteAllRows() {
+    data.clear();
+}
+
+void Table::clearColumn(string columnName, string fillingValue) {
+	for(auto record: data){
+		int indexColumn=-1;
+		for(int i=0;i<tableHeader.size();i++){
+			if(tableHeader[i].columnName==columnName) indexColumn=i;
+		}
+		record[indexColumn]=setValueToVoid(fillingValue,tableHeader[indexColumn].colType);
+	}
+}
+
+void Table::deleteByValue(string columnName, string value) {
+	int indexColumn=-1;
+	for(int i=0;i<tableHeader.size();i++){
+		if(tableHeader[i].columnName==columnName) indexColumn==i;
+	}
+	DBType dbType=tableHeader[indexColumn].colType;
+	for(auto record:data){
+		switch(dbType){
+			case DBType(Int32):  {
+				if(stoi(value)==*reinterpret_cast<int*>(record[indexColumn])){
+					data.erase(data.
+				}
+				break;
+			}
+			case DBType(Double): table << *reinterpret_cast<double*>(value); break;
+			case DBType(String): table << *reinterpret_cast<string*>(value); break;
+			case DBType(Date): table << *reinterpret_cast<DBDate*>(value); break;
+		}
+		if(record[indexColumn]==value)
+	}
+
+}
+
+bool Table::isColumnExist(string columnName) {
+	for(int i=0;i<tableHeader.size();i++){
+		if(tableHeader[i].columnName==columnName) return true;
+	}
+	return false;
 }

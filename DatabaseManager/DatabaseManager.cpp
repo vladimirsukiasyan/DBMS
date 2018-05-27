@@ -41,6 +41,7 @@ TablesManager* DatabaseManager::useDatabase(const char *dbName) {
     currentDirectory+="\\";
 
     //загрузка всех таблиц данной бд в память
+    tablesManager.tables.clear();
     tablesManager.readAllTables();
     return &tablesManager;
 }

@@ -31,11 +31,15 @@ public:
 
     void insertRow();
 
-    void deleteRow(int index);
-
     void saveTables();
 
     void selectWhere();
+
+    void clearTable();
+
+    void deleteRowsConditions();
+
+    void clearColumnFromAllRows();
 };
 
 

@@ -51,6 +51,8 @@ public:
 
     void *setValueToVoid(string value, DBType dbType);
 
+    void printTable(vector<Row> table);
+
     void printTable();
 
     void insertRow();
@@ -59,7 +61,15 @@ public:
 
     void writeDBTable();
 
-    void getRowsWhere(string column,string value);
+    vector<Row> getRowsWhere(string column,string value);
+
+    void deleteAllRows();
+
+    void clearColumn(string nameColumn, string fillingValue=NULL);
+
+    void deleteByValue(string columnName, string value);
+
+    bool isColumnExist(string columnName);
 };
 
 

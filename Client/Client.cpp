@@ -25,9 +25,11 @@ void Client::run() {
 
     tablesManager->insertRow();
     tablesManager->printCurrentTable();
-    tablesManager->deleteRow(0);
     tablesManager->printCurrentTable();
-//    tablesManager->selectWhere();
+    tablesManager->selectWhere();
+    tablesManager->clearTable();
+    tablesManager->deleteRowsConditions();
+    tablesManager->clearColumnFromAllRows();
 
     databaseManager.useDatabase("testDB1");
 

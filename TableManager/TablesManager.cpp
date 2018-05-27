@@ -68,10 +68,6 @@ void TablesManager::insertRow() {
     curTable->insertRow();
 }
 
-void TablesManager::deleteRow(int index) {
-    curTable->deleteRow(index);
-}
-
 void TablesManager::saveTables() {
     for(auto it=tables.begin();it!=tables.end();it++){
         it->second.writeDBTable();
@@ -85,7 +81,39 @@ void TablesManager::selectWhere() {
     cout<<"Enter value:";
     cin>>value;
 
-//    curTable->getRowsWhere();
+    curTable->printTable(curTable->getRowsWhere(column, value));
+}
+
+void TablesManager::clearTable() {
+    curTable->deleteAllRows();
+}
+
+void TablesManager::deleteRowsConditions() {
+    cout<<"Enter column's name to delete records: ";
+    string columnName, value;
+    cin>>columnName;
+    if(!curTable->isColumnExist(columnName)){
+        cout<<"This column doesn't exist!";
+        return;
+    }
+    cout<<"Enter value to delete by: ";
+    cin>>value;
+
+    curTable->deleteByValue(columnName,value);
+
+}
+
+void TablesManager::clearColumnFromAllRows() {
+    cout<<"Enter name of Column to clear data";
+    string columnName,fillingValue;
+    cin>>columnName;
+    if(!curTable->isColumnExist(columnName)){
+        cout<<"This column doesn't exist!";
+        return;
+    }
+    cout<<"Enter a value for filling. Default value is NULL:";
+    cin>>fillingValue;
+    curTable->clearColumn(columnName, fillingValue);
 }
 
 
