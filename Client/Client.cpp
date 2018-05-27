@@ -38,7 +38,7 @@ void Client::run() {
 //    tablesManager->clearColumnFromAllRows();
 //    tablesManager->printCurrentTable();
 
-    cout<<">>clearTable():"<<endl;
+//    cout<<">>clearTable():"<<endl;
 //    tablesManager->clearTable();
 //    tablesManager->printCurrentTable();
 
