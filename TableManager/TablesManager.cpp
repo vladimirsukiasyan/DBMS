@@ -43,29 +43,55 @@ void TablesManager::useTable(const char *tableName) {
 }
 
 void TablesManager::createTable() {
-    string tableName;
+    fstream metafileRead(DatabaseManager::currentDirectory+"metafile.txt",fstream::in);
+
+    string tableName,primaryKey,columnName,columnType;
+    Table newTable;
+    TableHeader tableHeader;
+    Columns column;
     int columnCount=0;
+
     cout<<">>Table creating:"<<endl;
     cout<<"Enter table name: ";
     cin>>tableName;
-    cout<<"Enter count of column: ";
-    cin>>columnCount;
+    string existTable;
+    while(getline(metafileRead,existTable)){
+        if(tableName==existTable) {
+            cout<<"This table exists!"<<endl;
+            return;
+        }
+    }
+    newTable.setTableName(tableName);
+    cout<<"Enter primary key: "<<endl;
+    cin>>primaryKey;
+    newTable.setPrimaryKey(primaryKey);
 
-    string columnName;
+    cout<<"Enter count of columns: ";
+    cin>>columnCount;
     for(int i=0;i<columnCount;i++){
         cout<<"Column "<<i+1<<":"<<endl;
-        cout<<"Enter name of column:"<<columnCount;
-    }
 
+        cout<<"Enter name of column: ";
+        cin>>column.columnName;
+
+        cout<<"Enter type of column(Int32,Double,String,DBDate): ";
+        cin>>columnType;
+        column.colType=newTable.getType(columnType);
+
+        tableHeader.push_back(column);
+    }
+    cout<<endl;
+    newTable.setTableHeader(tableHeader);
+    tables.insert(pair<string,Table>(tableName,newTable));
 
     string tablePath=DatabaseManager::currentDirectory+tableName+".csv";
     fstream table(tablePath, fstream::in|fstream::out|fstream::trunc);
 
-
     table.close();
-    fstream metafile(DatabaseManager::currentDirectory+"metafile.txt");
-    metafile<<endl<<tableName;
-
+    fstream metafileWrite(DatabaseManager::currentDirectory+"metafile.txt",fstream::out|fstream::app);
+    metafileWrite<<endl<<tableName;
+    metafileWrite.close();
+    saveTables();
 }
 
 void TablesManager::readAllTables() {
@@ -93,7 +119,7 @@ void TablesManager::saveTables() {
 }
 
 void TablesManager::selectWhere() {
-    cout<<"Enter name of Column:";
+    cout<<"Enter name of Column: ";
     string column,value;
     cin>>column;
     cout<<"Enter value:";
@@ -111,7 +137,7 @@ void TablesManager::deleteRowsConditions() {
     string columnName, value;
     cin>>columnName;
     if(!curTable->isColumnExist(columnName)){
-        cout<<"This column doesn't exist!";
+        cout<<"This column doesn't exist!"<<endl;
         return;
     }
     cout<<"Enter value to delete by: ";
@@ -122,14 +148,14 @@ void TablesManager::deleteRowsConditions() {
 }
 
 void TablesManager::clearColumnFromAllRows() {
-    cout<<"Enter name of Column to clear data";
+    cout<<"Enter name of Column to clear data: ";
     string columnName,fillingValue;
     cin>>columnName;
     if(!curTable->isColumnExist(columnName)){
         cout<<"This column doesn't exist!";
         return;
     }
-    cout<<"Enter a value for filling. Default value is NULL:";
+    cout<<"Enter a value for filling. Default value is NULL: ";
     cin>>fillingValue;
     curTable->clearColumn(columnName, fillingValue);
 }

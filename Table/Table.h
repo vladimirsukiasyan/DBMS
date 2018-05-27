@@ -31,6 +31,12 @@ class Table{
     string primaryKey;
     vector<Row> data;
     TableHeader tableHeader;
+public:
+    void setTableName(const string &tableName);
+
+    void setPrimaryKey(const string &primaryKey);
+
+    void setTableHeader(const TableHeader &tableHeader);
 
 public:
     Table(string name);

@@ -4,26 +4,26 @@
 //void DBTableTxt::getTableInfo(fstream &file) {
 //	char *next_token, *token, *delims = "|";
 //	string str;
-//	getline(file, str); //чтение заголовка таблицы
+//	getline(file, str); //Г·ГІГҐГ­ГЁГҐ Г§Г ГЈГ®Г«Г®ГўГЄГ  ГІГ ГЎГ«ГЁГ¶Г»
 //	next_token = (char*)str.c_str();
-//	//цикл по словам (лексемам) в строке
+//	//Г¶ГЁГЄГ« ГЇГ® Г±Г«Г®ГўГ Г¬ (Г«ГҐГЄГ±ГҐГ¬Г Г¬) Гў Г±ГІГ°Г®ГЄГҐ
 //	if ((token = strtok_s(next_token, delims, &next_token)) != NULL) {
 //		tableName = token;
 //	}
-//	else cout << "\nОшибка чтения имени таблицы!";
+//	else cout << "\nГЋГёГЁГЎГЄГ  Г·ГІГҐГ­ГЁГї ГЁГ¬ГҐГ­ГЁ ГІГ ГЎГ«ГЁГ¶Г»!";
 //	if ((token = strtok_s(next_token, delims, &next_token)) != NULL) {
 //		primaryKey = token;
 //	}
-//	else cout << "\nОшибка чтения ключа таблицы!";
+//	else cout << "\nГЋГёГЁГЎГЄГ  Г·ГІГҐГ­ГЁГї ГЄГ«ГѕГ·Г  ГІГ ГЎГ«ГЁГ¶Г»!";
 //}
 //void DBTableTxt::getHeaderInfo(fstream &file) {
-//	tableHeader.clear(); //очистка заголовка таблицы для новой таблицы
+//	tableHeader.clear(); //Г®Г·ГЁГ±ГІГЄГ  Г§Г ГЈГ®Г«Г®ГўГЄГ  ГІГ ГЎГ«ГЁГ¶Г» Г¤Г«Гї Г­Г®ГўГ®Г© ГІГ ГЎГ«ГЁГ¶Г»
 //	char *next_token, *token, *delims = "|";
 //	string str;
 //	Columns column;
-//	getline(file, str); //чтение заголовка таблицы
+//	getline(file, str); //Г·ГІГҐГ­ГЁГҐ Г§Г ГЈГ®Г«Г®ГўГЄГ  ГІГ ГЎГ«ГЁГ¶Г»
 //	next_token = (char*)str.c_str();
-//	//цикл по словам (лексемам) в строке
+//	//Г¶ГЁГЄГ« ГЇГ® Г±Г«Г®ГўГ Г¬ (Г«ГҐГЄГ±ГҐГ¬Г Г¬) Гў Г±ГІГ°Г®ГЄГҐ
 //	while ((token = strtok_s(next_token, delims, &next_token)) != NULL) {
 //		column.columnName = token;
 //		token = strtok_s(next_token, delims, &next_token);
@@ -40,9 +40,9 @@
 //	while (!file.eof()) {
 //		int i = 0;
 //		Row row;
-//		getline(file, str); //чтение заголовка таблицы
+//		getline(file, str); //Г·ГІГҐГ­ГЁГҐ Г§Г ГЈГ®Г«Г®ГўГЄГ  ГІГ ГЎГ«ГЁГ¶Г»
 //		next_token = (char*)str.c_str();
-//		//цикл по словам (лексемам) в строке
+//		//Г¶ГЁГЄГ« ГЇГ® Г±Г«Г®ГўГ Г¬ (Г«ГҐГЄГ±ГҐГ¬Г Г¬) Гў Г±ГІГ°Г®ГЄГҐ
 //		while ((token = strtok_s(next_token, delims, &next_token)) != NULL) {
 //			row.push_back(setValue(token, tableHeader[i].colType));
 //			i++;
@@ -66,7 +66,7 @@
 //void DBTableTxt::printDBTable() {
 //	for (auto item: data) {
 //		int i = 0;
-//		for (auto itemCol : item) { //data[i]-получения объекта Row
+//		for (auto itemCol : item) { //data[i]-ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г®ГЎГєГҐГЄГІГ  Row
 //			switch (tableHeader[i].colType) {
 //				case DBType(String): cout << *(string*)itemCol; break;
 //				case DBType(Int32): cout << *(int*)itemCol; break;
@@ -137,7 +137,7 @@
 //Row DBTableTxt::createRow() {
 //	Row row;
 //	for (auto item : tableHeader) {
-//		cout << "Введите " << item.columnName << ": ";
+//		cout << "Г‚ГўГҐГ¤ГЁГІГҐ " << item.columnName << ": ";
 //		char* inValue = new char[100];
 //		void* writeValue;
 //		cin >> inValue;

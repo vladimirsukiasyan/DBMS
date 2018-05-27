@@ -42,6 +42,9 @@ TablesManager* DatabaseManager::useDatabase(const char *dbName) {
 
     //загрузка всех таблиц данной бд в память
     tablesManager.tables.clear();
+    tablesManager.curTable= nullptr;
+    tablesManager.tableCurrentName="";
+
     tablesManager.readAllTables();
     return &tablesManager;
 }

@@ -139,6 +139,10 @@ void Table::writeDBTable() {
 		if (i++!= tableHeader.size()-1) table << "|";
 	}
 	i = 0;
+	if(data.empty()) {
+		table.close();
+		return;
+	}
 	table << endl;
 	for (auto item: data) {
 		int j = 0;
@@ -253,4 +257,16 @@ bool Table::isColumnExist(string columnName) {
 		if(tableHeader[i].columnName==columnName) return true;
 	}
 	return false;
+}
+
+void Table::setTableName(const string &tableName) {
+	Table::tableName = tableName;
+}
+
+void Table::setPrimaryKey(const string &primaryKey) {
+	Table::primaryKey = primaryKey;
+}
+
+void Table::setTableHeader(const TableHeader &tableHeader) {
+	Table::tableHeader = tableHeader;
 }
