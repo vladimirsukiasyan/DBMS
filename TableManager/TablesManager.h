@@ -21,7 +21,7 @@ public:
 
     void useTable(const char *tableName);
 
-    void createTable(const char *tableName);
+    void createTable();
 
     void readAllTables();
 

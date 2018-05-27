@@ -42,12 +42,30 @@ void TablesManager::useTable(const char *tableName) {
 
 }
 
-void TablesManager::createTable(const char *tableName) {
+void TablesManager::createTable() {
+    string tableName;
+    int columnCount=0;
+    cout<<">>Table creating:"<<endl;
+    cout<<"Enter table name: ";
+    cin>>tableName;
+    cout<<"Enter count of column: ";
+    cin>>columnCount;
+
+    string columnName;
+    for(int i=0;i<columnCount;i++){
+        cout<<"Column "<<i+1<<":"<<endl;
+        cout<<"Enter name of column:"<<columnCount;
+    }
+
+
     string tablePath=DatabaseManager::currentDirectory+tableName+".csv";
     fstream table(tablePath, fstream::in|fstream::out|fstream::trunc);
+
+
     table.close();
     fstream metafile(DatabaseManager::currentDirectory+"metafile.txt");
     metafile<<endl<<tableName;
+
 }
 
 void TablesManager::readAllTables() {
