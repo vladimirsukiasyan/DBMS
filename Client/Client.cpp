@@ -23,13 +23,23 @@ void Client::run() {
     tablesManager->useTable("Students");
     tablesManager->printCurrentTable();
 
-    tablesManager->insertRow();
-    tablesManager->printCurrentTable();
-    tablesManager->printCurrentTable();
-    tablesManager->selectWhere();
-    tablesManager->clearTable();
-    tablesManager->deleteRowsConditions();
+//    cout<<">>Insert Row:"<<endl;
+//    tablesManager->insertRow();
+//    tablesManager->printCurrentTable();
+//    cout<<">>Select Row:"<<endl;
+//    tablesManager->selectWhere();
+//    cout<<">>Delete rows with conditions:"<<endl;
+//    tablesManager->deleteRowsConditions();
+//    tablesManager->printCurrentTable();
+
+    cout<<">>clearColumnFromAllRows():"<<endl;
     tablesManager->clearColumnFromAllRows();
+    tablesManager->printCurrentTable();
+
+    cout<<">>clearTable():"<<endl;
+    tablesManager->clearTable();
+    tablesManager->printCurrentTable();
+
 
     databaseManager.useDatabase("testDB1");
 

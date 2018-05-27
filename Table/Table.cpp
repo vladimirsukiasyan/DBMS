@@ -203,24 +203,35 @@ void Table::clearColumn(string columnName, string fillingValue) {
 }
 
 void Table::deleteByValue(string columnName, string value) {
-	int indexColumn=-1;
+	int indexColumn=-1,indexRow=0;
 	for(int i=0;i<tableHeader.size();i++){
-		if(tableHeader[i].columnName==columnName) indexColumn==i;
+		if(tableHeader[i].columnName==columnName) {
+			indexColumn=i;
+			break;
+		}
 	}
 	DBType dbType=tableHeader[indexColumn].colType;
-	for(auto record:data){
+	for(auto row: data){
 		switch(dbType){
 			case DBType(Int32):  {
-				if(stoi(value)==*reinterpret_cast<int*>(record[indexColumn])){
-					data.erase(data.
-				}
+				if(stoi(value)==*reinterpret_cast<int*>(row[indexColumn])) data.erase(data.begin()+indexRow--);
 				break;
 			}
-			case DBType(Double): table << *reinterpret_cast<double*>(value); break;
-			case DBType(String): table << *reinterpret_cast<string*>(value); break;
-			case DBType(Date): table << *reinterpret_cast<DBDate*>(value); break;
+			case DBType(Double):  {
+				if(stof(value)==*reinterpret_cast<double*>(row[indexColumn])) data.erase(data.begin()+indexRow--);
+				break;
+			}
+			case DBType(String):  {
+				if(value==*reinterpret_cast<string*>(row[indexColumn])) data.erase(data.begin()+indexRow--);
+				break;
+			}
+			case DBType(Date):  {
+				DBDate dbDate(value);
+				if(dbDate==*reinterpret_cast<DBDate*>(row[indexColumn])) data.erase(data.begin()+indexRow--);
+				break;
+			}
 		}
-		if(record[indexColumn]==value)
+		indexRow++;
 	}
 
 }
