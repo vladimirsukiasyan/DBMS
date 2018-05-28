@@ -20,13 +20,15 @@ public:
 
     void printDatabases();
 
-    TablesManager* useDatabase(const char *dbName);
+    TablesManager *useDatabase(string dbName);
 
-    void createDatabase(const char *path);
+    void createDatabase(string basicString);
 
-    void addInfoToMetafile(fstream& fstream);
+    void addInfoToMetafile(fstream &fstream);
 
     void saveDatabase();
+
+    void deleteDatabase(string basicString);
 };
 
 

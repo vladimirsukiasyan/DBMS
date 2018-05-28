@@ -10,6 +10,8 @@ class Client {
 
 public:
     void run();
+
+    void printCommands();
 };
 
 

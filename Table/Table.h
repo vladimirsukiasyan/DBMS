@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "string"
+
 using namespace std;
 
 enum DBType {
@@ -23,10 +24,10 @@ struct Columns {
 //    int colLength;
 };
 
-typedef vector<void*> Row;
+typedef vector<void *> Row;
 typedef vector<Columns> TableHeader;
 
-class Table{
+class Table {
     string tableName;
     string primaryKey;
     vector<Row> data;
@@ -40,8 +41,10 @@ public:
 
 public:
     Table(string name);
+
     Table();
-    Table& operator=(const Table &Table);
+
+    Table &operator=(const Table &Table);
 
     void readTable();
 
@@ -67,15 +70,19 @@ public:
 
     void writeDBTable();
 
-    vector<Row> getRowsWhere(string column,string value);
+    vector<Row> getRowsWhere(string column, string value);
 
     void deleteAllRows();
 
-    void clearColumn(string nameColumn, string fillingValue=NULL);
+    void clearColumn(string nameColumn, string fillingValue = NULL);
 
     void deleteByValue(string columnName, string value);
 
     bool isColumnExist(string columnName);
+
+    string getTableName();
+
+    TableHeader & getHeader();
 };
 
 

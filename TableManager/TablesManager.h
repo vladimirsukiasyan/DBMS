@@ -19,7 +19,7 @@ public:
 
     void printTables();
 
-    void useTable(const char *tableName);
+    void useTable(string tableName);
 
     void createTable();
 
@@ -40,6 +40,10 @@ public:
     void deleteRowsConditions();
 
     void clearColumnFromAllRows();
+
+    void deleteTable(string tableName);
+
+    void printColumns();
 };
 
 
