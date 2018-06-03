@@ -26,7 +26,7 @@ private:
     UserLog &operator=(UserLog const &) = delete;
 
     string UserName;
-    map<string, string> UserStat;
+    multimap<string, string> userStateTable,userStateDB;
     fstream logs;
 
 public:
@@ -36,23 +36,20 @@ public:
         return userLog;
     }
 
-    fstream& getStream(){
-        logs.open("../UserLog.txt",fstream::out|fstream::trunc);
-        logs.seekp(0, ios::end);
-        return logs;
+    fstream& openStream(){
+        logs.open("../UserLog.txt",fstream::out|fstream::app);
     }
 
     void getUser() {
         string name;
         cout << "Enter your name, User: ";
         getline(cin, name);
-        logs<<endl << "User: " <<name;
+        logs << "User: " <<name;
         UserName = name;
 
         time_t t = time(nullptr);
         tm* timeinfo = localtime(&t);
         logs<< endl << "Time: " << asctime(timeinfo);
-        logs.close();
     }
 
     string outUser() {
@@ -61,32 +58,49 @@ public:
 
     map<string, string>::iterator iter;
 
+    void dOpened(string databaseName) {
+        userStateDB.insert(pair<string, string>(databaseName, "Opened"));
+    }
+
+    void dDeleted(string databaseName) {
+        userStateDB.insert(pair<string, string>(databaseName, "Deleted"));
+    }
+
+    void dCreated(string TableName) {
+        userStateDB.insert(pair<string, string>(TableName, "Created"));
+    }
+
     void tOpened(string TableName) {
-        UserStat.insert(pair<string, string>(TableName, "Opened"));
+        userStateTable.insert(pair<string, string>(TableName, "Opened"));
     }
 
     void tUpdated(string TableName) {
-        UserStat.insert(pair<string, string>(TableName, "Updated"));
+        userStateTable.insert(pair<string, string>(TableName, "Updated"));
     }
 
     void tCleared(string TableName) {
-        UserStat.insert(pair<string, string>(TableName, "Cleared"));
+        userStateTable.insert(pair<string, string>(TableName, "Cleared"));
     }
 
     void tDeleted(string TableName) {
-        UserStat.insert(pair<string, string>(TableName, "Deleted"));
+        userStateTable.insert(pair<string, string>(TableName, "Deleted"));
     }
 
     void tCreated(string TableName) {
-        UserStat.insert(pair<string, string>(TableName, "Created"));
+        userStateTable.insert(pair<string, string>(TableName, "Created"));
     }
 
     void outUserStat() {
-        fstream fileout("../UserLog.txt");
-        fileout.seekp(0, ios::end);
-        for (iter = UserStat.begin(); iter != UserStat.end(); iter++)
-            fileout << "Table: " << (iter->first) << " | Status: " << (iter->second) << endl;
-        fileout.close();
+        for (auto iter: userStateDB){
+            logs <<"--- "<< "Database: " << (iter.first) << " | Status: " << (iter.second) << endl;
+        }
+
+        for (auto iter: userStateTable){
+            logs <<"--- "<< "Table: " << (iter.first) << " | Status: " << (iter.second) << endl;
+        }
+
+        logs<<endl;
+        logs.close();
     }
 };
 

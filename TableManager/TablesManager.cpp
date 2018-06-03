@@ -79,7 +79,7 @@ void TablesManager::createTable() {
         cout << "Enter name of column: ";
         cin >> column.columnName;
 
-        cout << "Enter type of column(Int32,Double,String,DBDate): ";
+        cout << "Enter type of column(Int,Double,String,DBDate): ";
         cin >> columnType;
         column.colType = newTable.getType(columnType);
 
@@ -174,8 +174,9 @@ void TablesManager::clearColumnFromAllRows() {
         cout << "This column doesn't exist!";
         return;
     }
-    cout << "Enter a value for filling. Default value is NULL: ";
-    cin >> fillingValue;
+    cout << "You may choose a value for filling or press enter for default values(Int=0,Double=0.0,String='',DBDate=0.0.0):";
+    cin.ignore();
+    getline(cin, fillingValue, '\n');
     curTable->clearColumn(columnName, fillingValue);
 
     //=============USER_LOG===============//
@@ -209,6 +210,11 @@ void TablesManager::deleteTable(string tableName) {
         string a=metafileTemp.back();
     }
     metafile.close();
+
+    //=============USER_LOG===============//
+    UserLog::Instance().tDeleted(tableName);
+    //=============USER_LOG===============//
+
 }
 
 void TablesManager::printColumns() {

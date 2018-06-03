@@ -12,7 +12,7 @@ using namespace std;
 
 enum DBType {
     NoType,
-    Int32,
+    Int,
     Double,
     String,
     Date
@@ -74,7 +74,7 @@ public:
 
     void deleteAllRows();
 
-    void clearColumn(string nameColumn, string fillingValue = NULL);
+    void clearColumn(string nameColumn, string fillingValue="");
 
     void deleteByValue(string columnName, string value);
 

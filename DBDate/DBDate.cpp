@@ -34,15 +34,12 @@ bool DBDate::IsLeapYear(int year) {
 }
 
 int DBDate::GetDaysInMonth(int month, int year) {
-    return 28 + ((month + (month / 8)) % 2) + 2 % month + ((1 +
-                                                            (1 - (year % 4 + 2) % (year % 4 + 1)) *
+    return 28 + ((month + (month / 8)) % 2) + 2 % month + ((1 + (1 - (year % 4 + 2) % (year % 4 + 1)) *
                                                             ((year % 100 + 2) % (year % 100 + 1))
-                                                            + (1 - (year % 400 + 2) % (year % 400 + 1))) / month) +
-           (1 / month)
-           - (((1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1))
-               + (1 - (year % 400 + 2) % (year % 400 + 1))) / month);
-    /*int leapYear[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
-    int simpleYear[12] = { 31,28,31,30,31,30,31,31,30,31,30,31};*/
+                                                            + (1 - (year % 400 + 2) % (year % 400 + 1))) / month) + (1 / month) -
+           (((1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1)) + (1 - (year % 400 + 2) % (year % 400 + 1))) / month);
+    //int leapYear[12] = {31,29,31,30,31,30,31,31,30,31,30,31};
+    //int simpleYear[12] = { 31,28,31,30,31,30,31,31,30,31,30,31};
 }
 
 int DBDate::DaysInCurYear() {

@@ -1,8 +1,8 @@
 StudentID
-Group|String|Name|String|StudentID|Int32
+Group|String|Name|String|StudentID|Int
 IU5-21|Sukiasyan|1
 IU5-21|Kochetjov|2
 IU7-23|Ahmetova|7
-L4-21|SaangYong|5
 IU3-62|Upiraeva|6
-IU6-21|Jiravo|9
+IU5-21B|Martinova|21
+IU8-21|Krukov|22

@@ -1,6 +1,3 @@
 BookID
-Author|String|BookID|Int32|Title|String|Quantity|Int32|Number|Int32
-Frolov|1|Nachert|100|23
-Morozova|2|Mataniz|1030|253
-hjjk|254|fhghjjkhjghfgf|25325|2
-Ukraine|3|Maidan|12441|1
+Author|String|BookID|Int|Title|String|Quantity|Int|Number|Int
+Berjnov|1|HowToCreateTheWorld|2500|500

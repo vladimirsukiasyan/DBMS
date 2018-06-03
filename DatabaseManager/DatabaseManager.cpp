@@ -6,6 +6,7 @@
 #include <cstring>
 #include "DatabaseManager.h"
 #include "../TableManager/TablesManager.h"
+#include "../UserLog/UserLog.h"
 #include <direct.h>
 
 using namespace std;
@@ -36,7 +37,6 @@ TablesManager *DatabaseManager::useDatabase(string dbName) {
         return new TablesManager();
     }
     database.close();
-    this->databaseName = dbName;
     currentDirectory += dbName;
     currentDirectory += "\\";
 
@@ -47,6 +47,11 @@ TablesManager *DatabaseManager::useDatabase(string dbName) {
 
     //загрузка всех таблиц данной бд в память
     tablesManager.readAllTables();
+
+    //=============USER_LOG===============//
+    UserLog::Instance().dOpened(dbName);
+    //=============USER_LOG===============//
+
     return &tablesManager;
 }
 
@@ -63,10 +68,10 @@ void DatabaseManager::createDatabase(string dbName) {
 
 //    addInfoToMetafile(database);
     database.close();
-}
 
-void DatabaseManager::addInfoToMetafile(fstream &fstream) {
-
+    //=============USER_LOG===============//
+    UserLog::Instance().dCreated(dbName);
+    //=============USER_LOG===============//
 }
 
 void DatabaseManager::saveDatabase() {
@@ -75,7 +80,10 @@ void DatabaseManager::saveDatabase() {
 
 void DatabaseManager::deleteDatabase(string dbName) {
     int result=system(("rd /s "+defaultDirectory+dbName).c_str());
-    result==0?cout<<"Database has been deleted!"<<endl:cout<<"Database hasn't been deleted!";
+    if(result==0){
+        cout<<"Database has been deleted!"<<endl;
+    }
+    else cout<<"Database hasn't been deleted!";
 
     fstream metafile(defaultDirectory+"metafile.txt",fstream::in);
     string line;
@@ -84,8 +92,13 @@ void DatabaseManager::deleteDatabase(string dbName) {
     metafile.close();
 
     metafile.open(defaultDirectory+"metafile.txt",fstream::out|fstream::trunc); //чистим metafile;
-    for(string line:metafileTemp) metafile<<line<<endl;
+    for(string line:metafileTemp) {
+        metafile<<line<<endl;
+    }
     metafile.close();
 
+    //=============USER_LOG===============//
+    UserLog::Instance().dDeleted(dbName);
+    //=============USER_LOG===============//
 }
 

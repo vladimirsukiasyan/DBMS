@@ -13,7 +13,6 @@ using namespace std;
 
 class DatabaseManager {
 public:
-    string databaseName;
     TablesManager tablesManager;
     static string currentDirectory;
     static string defaultDirectory;
@@ -23,8 +22,6 @@ public:
     TablesManager *useDatabase(string dbName);
 
     void createDatabase(string basicString);
-
-    void addInfoToMetafile(fstream &fstream);
 
     void saveDatabase();
 
